@@ -1,0 +1,5 @@
+/**
+ * Created by rdm0509 on 7/14/16.
+ */
+
+export { HeroEditorComponent } from "./hero-editor.component";
