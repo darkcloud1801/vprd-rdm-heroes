@@ -8,8 +8,8 @@ import { Hero, HeroService } from "heroes/shared";
 
 @Component({
     selector: "my-dashboard",
-    templateUrl: "get_template/heroes-app/hero-dashboard",
-    styleUrls: ["./static/heroes-app-css/dashboard.css"],
+    templateUrl: "./dashboard.html",
+    styleUrls: ["./dashboard.css"],
 })
 export class DashboardComponent implements OnInit {
     heroes: Hero[] = [];
@@ -21,6 +21,7 @@ export class DashboardComponent implements OnInit {
     }
 
     gotoDetail(hero: Hero): void {
-        this.router.navigate(["/detail", hero.id ]);
+        let link = ['/detail', hero.id];
+        this.router.navigate(link);
     }
 }

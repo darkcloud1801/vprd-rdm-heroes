@@ -7,7 +7,7 @@ import { Hero } from "heroes/shared";
 
 @Component({
     selector: "my-app",
-    templateUrl: "get_template/heroes-app/hero-editor"
+    templateUrl: "./editor.html"
 })
 
 export class HeroEditorComponent {

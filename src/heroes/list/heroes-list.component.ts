@@ -4,13 +4,13 @@
 
 import { Component, OnInit} from "@angular/core";
 import { Router } from "@angular/router";
-import { Hero, HeroService } from "heroes-app/shared";
-import { HeroDetailComponent } from "heroes-app/_detail";
+import { Hero, HeroService } from "heroes/shared";
+import { HeroDetailComponent } from "heroes";
 
 @Component(<Dict>{
     selector: "my-heroes",
-    templateUrl: "get_template/heroes-app/hero-list",
-    styleUrls: ["./static/heroes-app-css/list.css"],
+    templateUrl: "./list.html",
+    styleUrls: ["./list.css"],
     directives: [HeroDetailComponent]
 })
 

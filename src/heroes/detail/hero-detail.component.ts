@@ -2,38 +2,43 @@
  * Created by rdm0509 on 7/14/16.
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { RouteSegment } from "@angular/router";
+import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { HeroService, Hero } from "heroes/shared";
 
 @Component({
     selector: "my-hero-detail",
-    templateUrl: "get_template/heroes-app/hero-detail",
-    styleUrls: ["./static/heroes-app-css/hero-detail.css"]
+    templateUrl: "./detail.html",
+    styleUrls: ["./detail.css"]
 })
 
-export class HeroDetailComponent implements OnInit {
+export class HeroDetailComponent implements OnInit, OnDestroy {
     @Input() hero: Hero;
     @Output() close: EventEmitter = new EventEmitter();
-    id: any;
+    sub: any;
+    hero: Hero;
     error: any;
     navigated: boolean = false;
 
-    constructor(private heroService: HeroService, private routeSegment: RouteSegment) {
-        this.id = routeSegment.getParam("id");
+    constructor(private heroService: HeroService, private route: ActivatedRoute) {
     }
 
     ngOnInit(): void {
-        console.log("hero detail component", this.id);
-        if (this.id !== undefined) {
-            this.navigated = true;
-            this.heroService.getHero(this.id)
-                .then(hero => this.hero = hero);
-        } else {
-            console.log("no hero");
-            this.navigated = false;
-            this.hero = new Hero();
-        }
+        this.sub = this.route.params.subscribe(params => {
+            if (params['id'] !== undefined) {
+                let id = +params['id'];
+                this.navigated = true;
+                this.heroService.getHero(id)
+                    .then(hero => this.hero = hero);
+            } else {
+                this.navigated = false;
+                this.hero = new Hero();
+            }
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.sub.unsubscribe();
     }
 
     save(): void {
@@ -45,6 +50,7 @@ export class HeroDetailComponent implements OnInit {
             })
             .catch(error => this.error = error);
     }
+
     goBack(savedHero: Hero = null): void {
         this.close.emit(savedHero);
         if (this.navigated) { window.history.back(); }

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<!-- #docregion head -->
+<!-- #docregion base-href -->
+<head>
+    <base href="/">
+    <!-- #enddocregion base-href -->
+    <title>Angular 2 Tour of Heroes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- #enddocregion head -->
+    <!-- #docregion css -->
+    <!-- #enddocregion css -->
+    <!-- #docregion head -->
+    <!-- IE required polyfills, in this exact order -->
+    <script src="node_modules/es6-shim/es6-shim.min.js"></script>
+    <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
+    <script src="node_modules/angular2/es6/dev/src/testing/shims_for_IE.js"></script>
+
+    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <script src="node_modules/rxjs/bundles/Rx.js"></script>
+    <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
+    <!-- #docregion router -->
+    <script src="node_modules/angular2/bundles/router.dev.js"></script>
+    <!-- #enddocregion router -->
+    <script>
+        (function(global) {
+            var vip_packages = [
+//                { "name": "angular2-vip",          "def_ext": "ts", "map_url": "{% static "angular2-vip" %}" },
+                { "name": "heroes-app",            "def_ext": "ts", "map_url": "./heroes-app" },
+                { "name": "heroes-app/_dashboard", "def_ext": "ts", "map_url": "./heroes-app/_dashboard" },
+                { "name": "heroes-app/_detail",    "def_ext": "ts", "map_url": "./heroes-app/_detail" },
+                { "name": "heroes-app/_editor",    "def_ext": "ts", "map_url": "./heroes-app/_editor" },
+                { "name": "heroes-app/_list",      "def_ext": "ts", "map_url": "./heroes-app/_list" },
+                { "name": "heroes-app/shared",     "def_ext": "ts", "map_url": "./heroes-app/shared" },
+            ];
+
+            // map tells the System loader where to look for things
+            var map = {
+                "@angular2-material":         "node_modules/@angular2-material",
+                "angular2-material":          "node_modules/@angular2-material",
+                "@angular":                   "node_modules/@angular",
+                "angular2-in-memory-web-api": "node_modules/angular2-in-memory-web-api",
+                "rxjs":                       "node_modules/rxjs",
+                "systemjs":                   "node_modules/systemjs",
+                "typescript":                 "node_modules/typescript/lib/typescript"
+            };
+
+            // packages tells the System loader how to load when no filename and/or no extension
+            var packages = {
+                "rxjs":                       { defaultExtension: 'js' },
+                "angular2-in-memory-web-api": { main: 'index.js', defaultExtension: 'js' }
+            };
+
+            var ngPackageNames = [
+                "common",
+                "compiler",
+                "core",
+                "http",
+                "platform-browser",
+                "platform-browser-dynamic",
+                "router",
+                "upgrade"
+            ];
+
+            function pushPackage(pkg) {
+                map[pkg.name] = pkg.map_url;
+                packages[pkg.name] = { main: "index.ts", defaultExtension: pkg.def_ext };
+            }
+
+            vip_packages.forEach(pushPackage);
+
+            // Individual files (~300 requests):
+            function packIndex(pkgName) {
+                packages['@angular/'+pkgName] = { main: 'index.js', defaultExtension: 'js' };
+            };
+
+            // Bundled (~40 requests):
+            function packUmd(pkgName) {
+                packages['@angular/'+pkgName] = { main: pkgName + '.umd.js', defaultExtension: 'js' };
+            };
+
+            // Most environments should use UMD; some (Karma) need the individual index files
+            var setPackageConfig = System.packageWithIndex ? packIndex : packUmd;
+
+            // Add package entries for angular packages
+            ngPackageNames.forEach(setPackageConfig);
+
+            var config = {
+                "defaultJSExtensions": true,
+                "baseURL": "/",
+                "transpiler": "typescript",
+                "typescriptOptions": {
+                    "emitDecoratorMetadata": true,
+                    "experimentalDecorators": true
+                },
+                "paths": {
+                    "angular2/!*": "node_modules/angular2/!*"
+                },
+                map: map,
+                packages: packages
+            };
+            System.config(config);
+        })(this);
+    </script>
+</head>
+
+<body>
+<my-app>Loading...</my-app>
+</body>
+</html>

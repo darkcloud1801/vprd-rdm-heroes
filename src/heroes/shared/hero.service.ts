@@ -10,7 +10,7 @@ import "rxjs/add/operator/toPromise";
 
 @Injectable()
 export class HeroService {
-    private heroesUrl: String = "heroes-app/heroes";  // url to web api
+    private heroesUrl: String = "heroes/heroes";  // url to web api
 
     constructor(private http: Http) { }
 
@@ -51,7 +51,6 @@ export class HeroService {
     }
 
     private post(hero: Hero): Promise<Hero> {
-        console.log(this.heroesUrl);
         let headers: Headers = new Headers({
             "Content-Type": "application/json"
         });
