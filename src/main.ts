@@ -2,12 +2,16 @@
  * Created by rdm0509 on 7/14/16.
  */
 
-import { ComponentRef } from "@angular/core";
+import { ComponentRef, enableProdMode } from "@angular/core";
 import { HTTP_PROVIDERS, XHRBackend } from "@angular/http";
 import { bootstrap } from "@angular/platform-browser-dynamic";
 import { InMemoryBackendService, SEED_DATA } from "angular2-in-memory-web-api";
 import { InMemoryDataService } from "heroes/shared";
 import { HeroesAppComponent, appRouterProviders } from "heroes";
+
+if (process.env.ENV === "production") {
+    enableProdMode();
+}
 
 bootstrap(<any>HeroesAppComponent, [
     appRouterProviders,
